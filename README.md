@@ -1,6 +1,6 @@
 # ad-vue-project
 
-> A Vue.js project
+> Training project on [Vue JS](https://vuejs.org/), with [Vuetify](https://vuetifyjs.com) and [Firebase](https://firebase.google.com/)
 
 ## Build Setup
 
