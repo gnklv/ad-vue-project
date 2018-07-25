@@ -10,7 +10,6 @@
             <v-form
               v-model="valid"
               ref="form"
-              lazy-validation
             >
               <v-text-field
                 prepend-icon="person"
@@ -24,19 +23,23 @@
                 prepend-icon="lock"
                 name="password"
                 label="Password"
-                type="password"
-                v-model.number="password"
+                v-model="password"
+                :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+                :type="showPassword ? 'text' : 'password'"
                 :rules="passwordRules"
-                :counter="6"
+                hint="At least 6 characters"
+                @click:append="showPassword = !showPassword"
               ></v-text-field>
               <v-text-field
                 prepend-icon="lock"
                 name="confirm-password"
                 label="Confirm Password"
-                type="password"
-                v-model.number="confirmPassword"
+                v-model="confirmPassword"
+                :append-icon="showConfirm ? 'visibility_off' : 'visibility'"
+                :type="showConfirm ? 'text' : 'password'"
                 :rules="confirmPasswordRules"
-                :counter="6"
+                hint="At least 6 characters"
+                @click:append="showConfirm = !showConfirm"
               ></v-text-field>
             </v-form>
           </v-card-text>
@@ -44,7 +47,8 @@
             <v-spacer></v-spacer>
             <v-btn
               color="primary"
-              :disabled="!valid"
+              :disabled="!valid || loading"
+              :loading="loading"
               @click="onSubmit"
             >
               Create account
@@ -57,25 +61,23 @@
 </template>
 
 <script>
+import { rulesMixin } from '@/mixins'
+
 export default {
+  mixins: [rulesMixin],
   data: () => ({
     email: '',
     password: '',
+    showPassword: false,
     confirmPassword: '',
-    valid: false,
-    emailRules: [
-      v => !!v || 'E-mail is required',
-      v => /.+@.+/.test(v) || 'E-mail must be valid'
-    ],
-    passwordRules: [
-      v => !!v || 'Password is required',
-      v => (v && v.length >= 6) || 'Password must be equal or more than 6 characters'
-    ],
-    confirmPasswordRules: [
-      v => !!v || 'Password is required',
-      v => v === this.password || 'Password should match'
-    ]
+    showConfirm: false,
+    valid: false
   }),
+  computed: {
+    loading () {
+      return this.$store.getters.loading
+    }
+  },
   methods: {
     onSubmit () {
       if (this.$refs.form.validate()) {
@@ -84,7 +86,11 @@ export default {
           password: this.password
         }
 
-        console.log(user)
+        this.$store.dispatch('registerUser', user)
+          .then(() => {
+            this.$router.push('/')
+          })
+          .catch(error => console.log(error))
       }
     }
   }

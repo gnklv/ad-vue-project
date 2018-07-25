@@ -82,10 +82,11 @@ export default {
         const ad = {
           title: this.title,
           description: this.description,
-          promo: this.promo
+          promo: this.promo,
+          imageSrc: 'https://cdn-images-1.medium.com/max/2000/1*qnI8K0Udjw4lciWDED4HGw.png'
         }
 
-        console.log(ad)
+        this.$store.dispatch('createAd', ad)
       }
     }
   }
