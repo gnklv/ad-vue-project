@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import App from './App'
 import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
 import * as fb from 'firebase'
+import 'vuetify/dist/vuetify.min.css'
 
 import router from './router'
 import store from './store'
@@ -19,14 +19,19 @@ new Vue({
   components: { App },
   template: '<App/>',
   created () {
-    const config = {
+    fb.initializeApp({
       apiKey: 'AIzaSyDInkhsP4MrGbyoum0-Pys4fjoJeq75P38',
       authDomain: 'its-ad-project.firebaseapp.com',
       databaseURL: 'https://its-ad-project.firebaseio.com',
       projectId: 'its-ad-project',
       storageBucket: 'its-ad-project.appspot.com',
       messagingSenderId: '445844475570'
-    }
-    fb.initializeApp(config)
+    })
+
+    fb.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.$store.dispatch('autoLoginUser', user)
+      }
+    })
   }
 })
