@@ -56,7 +56,8 @@
             <v-spacer></v-spacer>
             <v-btn
               class="success"
-              :disabled="!valid"
+              :loading="loading"
+              :disabled="!valid || loading"
               @click="createAd"
             >
               Create ad
@@ -76,6 +77,11 @@ export default {
     promo: false,
     valid: false
   }),
+  computed: {
+    loading () {
+      return this.$store.getters.loading
+    }
+  },
   methods: {
     createAd () {
       if (this.$refs.form.validate()) {
@@ -87,6 +93,10 @@ export default {
         }
 
         this.$store.dispatch('createAd', ad)
+          .then(() => {
+            this.$router.push('/list')
+          })
+          .catch(() => {})
       }
     }
   }
