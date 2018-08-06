@@ -41,17 +41,19 @@
 
 <script>
 export default {
-  data: () => ({
-    orders: [
-      {
-        id: 'fds3',
-        name: 'Vlad',
-        phone: '8-921-121-12-12',
-        adId: '123',
-        done: false
-      }
-    ]
-  }),
+  data () {
+    return {
+      orders: [
+        {
+          id: 'fds3',
+          name: 'Vlad',
+          phone: '8-921-121-12-12',
+          adId: '123',
+          done: false
+        }
+      ]
+    }
+  },
   methods: {
     markDone (order) {
       order.done = true

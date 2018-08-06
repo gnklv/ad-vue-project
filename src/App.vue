@@ -87,9 +87,11 @@
 
 <script>
 export default {
-  data: () => ({
-    drawer: false
-  }),
+  data () {
+    return {
+      drawer: false
+    }
+  },
   computed: {
     error () {
       return this.$store.getters.error

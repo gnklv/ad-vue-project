@@ -65,14 +65,16 @@ import { rulesMixin } from '@/mixins'
 
 export default {
   mixins: [rulesMixin],
-  data: () => ({
-    email: '',
-    password: '',
-    showPassword: false,
-    confirmPassword: '',
-    showConfirm: false,
-    valid: false
-  }),
+  data () {
+    return {
+      email: '',
+      password: '',
+      showPassword: false,
+      confirmPassword: '',
+      showConfirm: false,
+      valid: false
+    }
+  },
   computed: {
     loading () {
       return this.$store.getters.loading
